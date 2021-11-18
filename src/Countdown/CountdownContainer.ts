@@ -1,5 +1,6 @@
 import Control from "../Control";
 import Counter from "./Counter";
+import Separator from "./Separator";
 
 export default class CountdownContainer extends Control {
   day: string | void;
@@ -10,11 +11,16 @@ export default class CountdownContainer extends Control {
 
   second: string | void;
 
+  separator: Separator;
+
   constructor(parentNode: HTMLElement) {
     super(parentNode, "div", "countdown-container");
-    this.day = new Counter(this.node, "day").countdown();
-    this.hour = new Counter(this.node, "hour").countdown();
-    this.minute = new Counter(this.node, "minute").countdown();
-    this.second = new Counter(this.node, "second").countdown();
+    this.day = new Counter(this.node, "days").countdown();
+    this.separator = new Separator(this.node);
+    this.hour = new Counter(this.node, "hours").countdown();
+    this.separator = new Separator(this.node);
+    this.minute = new Counter(this.node, "minutes").countdown();
+    this.separator = new Separator(this.node);
+    this.second = new Counter(this.node, "seconds").countdown();
   }
 }

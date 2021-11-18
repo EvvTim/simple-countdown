@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "build": "webpack",
     "start": "webpack-dev-server --open",
     "lint": "eslint --fix main.js",
@@ -29,6 +30,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-prettier": "^4.0.0",
+    "gh-pages": "^3.2.3",
     "prettier": "^2.4.1",
     "ts-loader": "^6.2.2",
     "typescript": "^3.8.3",
