@@ -5,51 +5,83 @@ class Counter extends Control {
 
   private readonly value: Control;
 
-  private readonly seconds: number;
+  private seconds: number;
 
-  private readonly minutes: number;
+  private minutes: number;
 
-  private readonly hours: number;
+  private hours: number;
 
-  private readonly days: number;
+  private days: number;
 
   expiredDate: number;
+
+  countdownValue: number;
 
   constructor(parentNode: HTMLElement, elName: string) {
     super(parentNode, "div", `container-${elName} counter-container`);
     this.value = new Control(this.node, "h3", `value-${elName}`);
     this.title = new Control(this.node, "h2", `title-${elName}`, `${elName}`);
-    this.seconds = 1000;
-    this.minutes = this.seconds * 60;
-    this.hours = this.minutes * 60;
-    this.days = this.hours * 24;
-    this.expiredDate = new Date("November 22, 2022 00:00:00").getTime();
+    this.expiredDate = new Date("May 20, 2022 00:00:00").getTime();
   }
 
   countdown() {
     setInterval(() => {
-      const now = new Date().getTime();
-      const gap = this.expiredDate - now;
+      if (this.title.node.innerHTML === "days")
+        this.countdownValue = this.getDays();
 
-      const Day = Math.floor(gap / this.days);
-      const Hour = Math.floor((gap % this.days) / this.hours);
-      const Minute = Math.floor((gap % this.hours) / this.minutes);
-      const Second = Math.floor((gap % this.minutes) / this.seconds);
+      if (this.title.node.innerHTML === "hours")
+        this.countdownValue = this.getHours();
 
-      let value;
+      if (this.title.node.innerHTML === "minutes")
+        this.countdownValue = this.getMinutes();
 
-      if (this.title.node.innerHTML === "days") {
-        value = Day;
-      } else if (this.title.node.innerHTML === "hours") {
-        value = Hour;
-      } else if (this.title.node.innerHTML === "minutes") {
-        value = Minute;
-      } else if (this.title.node.innerHTML === "seconds") {
-        value = Second;
-      }
+      if (this.title.node.innerHTML === "seconds")
+        this.countdownValue = this.getSeconds();
 
-      return (this.value.node.innerHTML = `${value}`);
+      this.value.node.innerHTML = `${this.countdownValue}`;
     });
+  }
+
+  setGap() {
+    const now = new Date().getTime();
+
+    return this.expiredDate - now;
+  }
+
+  getDays() {
+    return Math.floor(this.setGap() / this.setDays());
+  }
+
+  getHours() {
+    return Math.floor((this.setGap() % this.setDays()) / this.setHours());
+  }
+
+  getMinutes() {
+    return Math.floor((this.setGap() % this.setHours()) / this.setMinutes());
+  }
+
+  getSeconds() {
+    return Math.floor((this.setGap() % this.setMinutes()) / this.setSeconds());
+  }
+
+  setSeconds() {
+    this.seconds = 1000;
+    return this.seconds;
+  }
+
+  setMinutes() {
+    this.minutes = this.setSeconds() * 60;
+    return this.minutes;
+  }
+
+  setHours() {
+    this.hours = this.setMinutes() * 60;
+    return this.hours;
+  }
+
+  setDays() {
+    this.days = this.setHours() * 24;
+    return this.days;
   }
 }
 
